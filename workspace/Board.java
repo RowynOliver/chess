@@ -99,41 +99,43 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
 	//since we only have one kind of piece for now you need only set the same number of pieces on either side.
 	//it's up to you how you wish to arrange your pieces.
     private void initializePieces() {
-        board[7][0].put(new Piece(true, RESOURCES_WROOK_PNG));
-        board[7][1].put(new Piece(true, RESOURCES_WKNIGHT_PNG));
-    	board[7][2].put(new Piece(true, RESOURCES_WBISHOP_PNG));
-    	board[7][3].put(new Piece(true, RESOURCES_WKING_PNG));
-        board[7][4].put(new Piece(true, RESOURCES_WQUEEN_PNG));
-        board[7][5].put(new Piece(true, RESOURCES_WBISHOP_PNG));
-        board[7][6].put(new Piece(true, RESOURCES_WKNIGHT_PNG));
-        board[7][7].put(new Piece(true, RESOURCES_WROOK_PNG));
+        
+        board[7][0].put(new Rook(true, RESOURCES_WROOK_PNG));
+        board[7][1].put(new Knight(true, RESOURCES_WKNIGHT_PNG));
+    	board[7][2].put(new Bishop(true, RESOURCES_WBISHOP_PNG));
+    	board[7][4].put(new King(true, RESOURCES_WKING_PNG));
+        board[7][3].put(new Queen(true, RESOURCES_WQUEEN_PNG));
+        board[7][5].put(new Bishop(true, RESOURCES_WBISHOP_PNG));
+        board[7][6].put(new Knight(true, RESOURCES_WKNIGHT_PNG));
+        board[7][7].put(new Rook(true, RESOURCES_WROOK_PNG));
+        
 
-        board[6][0].put(new Piece(true, RESOURCES_WPAWN_PNG));
-        board[6][1].put(new Piece(true, RESOURCES_WBANNERET_PNG));
-    	board[6][2].put(new Piece(true, RESOURCES_WPAWN_PNG));
-    	board[6][3].put(new Piece(true, RESOURCES_WPAWN_PNG));
-        board[6][4].put(new Piece(true, RESOURCES_WPAWN_PNG));
-        board[6][5].put(new Piece(true, RESOURCES_WPAWN_PNG));
-        board[6][6].put(new Piece(true, RESOURCES_WBANNERET_PNG));
-        board[6][7].put(new Piece(true, RESOURCES_WPAWN_PNG));
-
-        board[0][0].put(new Piece(false, RESOURCES_BROOK_PNG));
-        board[0][1].put(new Piece(false, RESOURCES_BKNIGHT_PNG));
-        board[0][2].put(new Piece(false, RESOURCES_BBISHOP_PNG));
-    	board[0][4].put(new Piece(false, RESOURCES_BKING_PNG));
-        board[0][3].put(new Piece(false, RESOURCES_BQUEEN_PNG));
-        board[0][5].put(new Piece(false, RESOURCES_BBISHOP_PNG));
-        board[0][6].put(new Piece(false, RESOURCES_BKNIGHT_PNG));
-        board[0][7].put(new Piece(false, RESOURCES_BROOK_PNG));
-
-        board[1][0].put(new Piece(false, RESOURCES_BPAWN_PNG));
-        board[1][1].put(new Piece(false, RESOURCES_BBANNERET_PNG));
-    	board[1][2].put(new Piece(false, RESOURCES_BPAWN_PNG));
-    	board[1][3].put(new Piece(false, RESOURCES_BPAWN_PNG));
-        board[1][4].put(new Piece(false, RESOURCES_BPAWN_PNG));
-        board[1][5].put(new Piece(false, RESOURCES_BPAWN_PNG));
-        board[1][6].put(new Piece(false, RESOURCES_BBANNERET_PNG));
-        board[1][7].put(new Piece(false, RESOURCES_BPAWN_PNG));
+        board[6][0].put(new Pawn(true, RESOURCES_WPAWN_PNG));
+        board[6][1].put(new Banneret(true, RESOURCES_WBANNERET_PNG));
+    	board[6][2].put(new Pawn(true, RESOURCES_WPAWN_PNG));
+    	board[6][3].put(new Pawn(true, RESOURCES_WPAWN_PNG));
+        board[6][4].put(new Pawn(true, RESOURCES_WPAWN_PNG));
+        board[6][5].put(new Pawn(true, RESOURCES_WPAWN_PNG));
+        board[6][6].put(new Banneret(true, RESOURCES_WBANNERET_PNG));
+        board[6][7].put(new Pawn(true, RESOURCES_WPAWN_PNG));
+        
+        board[0][0].put(new Rook(false, RESOURCES_BROOK_PNG));
+        board[0][1].put(new Knight(false, RESOURCES_BKNIGHT_PNG));
+        board[0][2].put(new Bishop(false, RESOURCES_BBISHOP_PNG));
+    	board[0][3].put(new King(false, RESOURCES_BKING_PNG));
+        board[0][4].put(new Queen(false, RESOURCES_BQUEEN_PNG));
+        board[0][5].put(new Bishop(false, RESOURCES_BBISHOP_PNG));
+        board[0][6].put(new Knight(false, RESOURCES_BKNIGHT_PNG));
+        board[0][7].put(new Rook(false, RESOURCES_BROOK_PNG));
+    
+        board[1][0].put(new Pawn(false, RESOURCES_BPAWN_PNG));
+        board[1][1].put(new Banneret(false, RESOURCES_BBANNERET_PNG));
+    	board[1][2].put(new Pawn(false, RESOURCES_BPAWN_PNG));
+    	board[1][3].put(new Pawn(false, RESOURCES_BPAWN_PNG));
+        board[1][4].put(new Pawn(false, RESOURCES_BPAWN_PNG));
+        board[1][5].put(new Pawn(false, RESOURCES_BPAWN_PNG));
+        board[1][6].put(new Banneret(false, RESOURCES_BBANNERET_PNG));
+        board[1][7].put(new Pawn(false, RESOURCES_BPAWN_PNG));
     }
 
     public Square[][] getSquareArray() {
@@ -197,6 +199,7 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
     //should move the piece to the desired location only if this is a legal move.
     //use the pieces "legal move" function to determine if this move is legal, then complete it by
     //moving the new piece to it's new board location. 
+    
     @Override
     public void mouseReleased(MouseEvent e) {
         Square endSquare = (Square) this.getComponentAt(new Point(e.getX(), e.getY()));
@@ -205,9 +208,24 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
         if(currPiece.getColor() == whiteTurn){
         for(Square sq: currPiece.getLegalMoves(this, fromMoveSquare)){
             if((endSquare.getRow() == sq.getRow()) && (endSquare.getCol() == sq.getCol())){
-                fromMoveSquare.removePiece();
-                endSquare.put(currPiece);
-                whiteTurn = !whiteTurn;
+                
+                if(isInCheck()){
+                    Piece temp = endSquare.getOccupyingPiece();
+                    endSquare.put(currPiece);
+                    fromMoveSquare.removePiece();
+                    if(isInCheck()){
+                        endSquare.put(temp);
+                        fromMoveSquare.put(currPiece);
+                    }else{
+                        whiteTurn = !whiteTurn;
+                    }
+                }else{
+                    endSquare.put(currPiece);
+                    fromMoveSquare.removePiece();
+                    whiteTurn = !whiteTurn;
+                }
+
+
             }
         }
     }
@@ -218,9 +236,46 @@ public class Board extends JPanel implements MouseListener, MouseMotionListener 
             }
         }
 
+        
+
         fromMoveSquare.setDisplay(true);
         currPiece = null;
         repaint();
+    }
+
+    public boolean isInCheck(){
+        int columnTemp = 0;
+        int rowTemp = 0;
+        
+
+        for(Square [] sq: board){
+            for(Square s: sq){
+                if((s.getOccupyingPiece() instanceof King && s.getOccupyingPiece().getColor() == whiteTurn)){
+                    columnTemp = s.getCol();
+                    rowTemp = s.getRow();
+                    
+                }
+            }
+        }
+
+        
+
+        for(Square [] sq: board){
+            for(Square s: sq){
+                if(s.getOccupyingPiece() != null && s.getOccupyingPiece().getColor() != whiteTurn){
+                    if(s.getOccupyingPiece().getControlledSquares(board, s).contains(board[rowTemp][columnTemp])){
+                        System.out.println("test");
+                        System.out.println("test");
+                        System.out.println("test");
+                        System.out.println("test");
+                        return true;
+                        
+                    }
+
+                }
+            }
+        }
+        return false;
     }
 
     @Override
